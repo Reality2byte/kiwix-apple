@@ -216,7 +216,7 @@
 "payment.summary_page.title" = "Kiwix 지원하기";
 "payment.support_button.label" = "Kiwix 지원하기";
 "payment.monthly_support.label" = "Kiwix에 대한 월별 지원";
-"payment.summary.title" = "키윅스";
+"payment.summary.title" = "Kiwix";
 "payment.textfield.custom_amount.label" = "사용자 지정 금액";
 "payment.confirm.button.title" = "확인";
 "payment.selection.average_monthly_donation.subtitle" = "월 평균 기부금";
