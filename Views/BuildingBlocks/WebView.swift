@@ -22,44 +22,90 @@ import Defaults
 #if os(macOS)
 struct WebView: NSViewRepresentable {
     @ObservedObject var browser: BrowserViewModel
-
+    
     func makeNSView(context: Context) -> NSView {
         let nsView = NSView()
         let webView = browser.webView
-        // auto-layout is not working
-        // when the video is paused in full screen
+        enableAutoLayout(nsView: nsView, webView: webView)
+        return nsView
+    }
+    
+    func updateNSView(_ nsView: NSView, context: Context) {}
+
+    func makeCoordinator() -> Coordinator {
+        Coordinator(view: self,
+                    onChangingFullscreen: { (enters: Bool, webView: WKWebView) in
+            guard let nsView = webView.superview else { return }
+            if enters {
+                // auto-layout is not working
+                // when the video is paused in full screen
+                disableAutoLayout(nsView: nsView, webView: webView)
+            } else {
+                enableAutoLayout(nsView: nsView, webView: webView)
+            }
+        })
+    }
+    
+    @MainActor
+    private func enableAutoLayout(nsView: NSView, webView: WKWebView) {
+        webView.removeFromSuperview()
+        webView.translatesAutoresizingMaskIntoConstraints = false
+        nsView.addSubview(webView)
+        
+        NSLayoutConstraint.activate([
+            webView.leadingAnchor.constraint(equalTo: nsView.safeAreaLayoutGuide.leadingAnchor),
+            webView.trailingAnchor.constraint(equalTo: nsView.safeAreaLayoutGuide.trailingAnchor),
+            webView.topAnchor.constraint(equalTo: nsView.safeAreaLayoutGuide.topAnchor),
+            webView.bottomAnchor.constraint(equalTo: nsView.safeAreaLayoutGuide.bottomAnchor)
+        ])
+    }
+    
+    @MainActor
+    private func disableAutoLayout(nsView: NSView, webView: WKWebView) {
+        webView.removeFromSuperview()
         webView.translatesAutoresizingMaskIntoConstraints = true
         webView.autoresizingMask = [.width, .height]
         nsView.addSubview(webView)
-        return nsView
-    }
-
-    func updateNSView(_ nsView: NSView, context: Context) {
-        // without this, after closing video full screen
-        // a newly opened webview's frame is wrongly sized
-        browser.webView.frame = nsView.bounds
-    }
-
-    func makeCoordinator() -> Coordinator {
-        Coordinator(view: self)
     }
 
     final class Coordinator {
         private let pageZoomObserver: Defaults.Observation
+        private let fullScreenObserver: NSKeyValueObservation
 
         @MainActor
-        init(view: WebView) {
+        init(
+            view: WebView,
+            onChangingFullscreen: @escaping @Sendable @MainActor (_ enters: Bool, _ webView: WKWebView) -> Void
+        ) {
             let browser = view.browser
             pageZoomObserver = Defaults.observe(.webViewPageZoom) { [weak browser] change in
                 browser?.webView.pageZoom = change.newValue
+            }
+            fullScreenObserver = view.browser.webView.observe(\.fullscreenState, options: [.new]) { webView, _ in
+                Task { @MainActor in
+                    switch webView.fullscreenState {
+                    case .enteringFullscreen:
+                        onChangingFullscreen(true, webView)
+                    case .inFullscreen:
+                        break
+                    case .exitingFullscreen:
+                        onChangingFullscreen(false, webView)
+                    case .notInFullscreen:
+                        break
+                    @unknown default:
+                        break
+                    }
+                }
             }
         }
         
         deinit {
             pageZoomObserver.invalidate()
+            fullScreenObserver.invalidate()
         }
     }
 }
+
 #elseif os(iOS)
 struct WebView: UIViewControllerRepresentable {
     @ObservedObject var browser: BrowserViewModel
