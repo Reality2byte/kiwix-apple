@@ -24,6 +24,13 @@ import UIKit
 import CoreData
 import Defaults
 
+/// Bridge between UIKit and SwiftUI search state and dismiss
+private final class SearchUpdate: ObservableObject {
+    @Published var isSearching: Bool = false
+    var dismiss: (() -> Void)?
+}
+
+// iPhone portrait only
 final class CompactViewController: UIHostingController<AnyView>, UISearchControllerDelegate, UISearchResultsUpdating {
     private let searchViewModel: SearchViewModel
     private let searchController: UISearchController
@@ -34,14 +41,17 @@ final class CompactViewController: UIHostingController<AnyView>, UISearchControl
     private var rightNavItem: UIBarButtonItem?
     private let navigation: NavigationViewModel
     private var navigationItemObserver: AnyCancellable?
+    // bridge down to Content's SwiftUI state
+    private var searchUpdate = SearchUpdate()
 
     init(navigation: NavigationViewModel) {
         self.navigation = navigation
         searchViewModel = SearchViewModel.shared
         let searchResult = SearchResults().environmentObject(searchViewModel)
         searchController = UISearchController(searchResultsController: UIHostingController(rootView: searchResult))
-        super.init(rootView: AnyView(CompactViewWrapper()))
+        super.init(rootView: AnyView(CompactViewWrapper().environmentObject(searchUpdate)))
         searchController.searchResultsUpdater = self
+        searchUpdate.dismiss = { [weak self] in self?.onSearchCancelled() }
     }
 
     @MainActor required dynamic init?(coder aDecoder: NSCoder) {
@@ -105,27 +115,18 @@ final class CompactViewController: UIHostingController<AnyView>, UISearchControl
 
     func willPresentSearchController(_ searchController: UISearchController) {
         navigationController?.setToolbarHidden(true, animated: true)
-        trailingNavItemGroups = navigationItem.trailingItemGroups
-        navigationItem.setRightBarButton(
-            UIBarButtonItem(
-                title: LocalString.common_button_cancel,
-                style: .done,
-                target: self,
-                action: #selector(onSearchCancelled)
-            ),
-            animated: true
-        )
+        searchUpdate.isSearching = true
     }
-    @objc func onSearchCancelled() {
+    
+    func onSearchCancelled() {
         searchController.isActive = false
-        navigationItem.setRightBarButtonItems(nil, animated: false)
-        navigationItem.trailingItemGroups = trailingNavItemGroups
+        searchUpdate.isSearching = false
     }
 
     func willDismissSearchController(_ searchController: UISearchController) {
         navigationController?.setToolbarHidden(false, animated: true)
         searchViewModel.searchText = ""
-        navigationItem.trailingItemGroups = trailingNavItemGroups
+        searchUpdate.isSearching = false
     }
 
     func updateSearchResults(for searchController: UISearchController) {
@@ -135,6 +136,7 @@ final class CompactViewController: UIHostingController<AnyView>, UISearchControl
 
 private struct CompactViewWrapper: View {
     @EnvironmentObject private var navigation: NavigationViewModel
+    @EnvironmentObject var searchUpdate: SearchUpdate
 
     var body: some View {
         if case .loading = navigation.currentItem {
@@ -190,9 +192,7 @@ private struct CompactView: View {
             showLibrary: {
                 if presentedSheet == nil {
                     presentedSheet = .library(downloads: false)
-                } else {
-                    // there's a sheet already presented by the user
-                    // do nothing
+                } else { // there's a sheet already presented by the user, do nothing
                 }
             },
             showSettings: {
@@ -273,9 +273,7 @@ private struct CompactView: View {
             }
         }
         .onReceive(hotspotShareURL) { notification in
-            guard let url = notification.userInfo?["url"] as? URL else {
-                return
-            }
+            guard let url = notification.userInfo?["url"] as? URL else { return }
             presentedSheet = .hotspotShare(url: url)
         }
         .onReceive(navigateToHotspotSettings) { _ in
@@ -291,6 +289,8 @@ private struct Content<LaunchModel>: View where LaunchModel: LaunchProtocol {
     let showSettings: () -> Void
     @ObservedObject var model: LaunchModel
     
+    // comes from all the way from CompactViewController's UIKit search bar
+    @EnvironmentObject private var searchUpdate: SearchUpdate
     @Environment(\.scenePhase) private var scenePhase
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     @EnvironmentObject private var library: LibraryViewModel
@@ -351,14 +351,24 @@ private struct Content<LaunchModel>: View where LaunchModel: LaunchProtocol {
             }
         }
         .toolbar {
-            ToolbarItemGroup(placement: .primaryAction) {
-                if !Brand.hideFindInPage {
-                    ContentSearchButton(browser: browser)
+            if searchUpdate.isSearching {
+                ToolbarItem(placement: .primaryAction) {
+                    Button { [weak searchUpdate] in
+                        searchUpdate?.dismiss?()
+                    } label: {
+                        Text(LocalString.common_button_cancel)
+                    }
                 }
-                Button {
-                    showSettings()
-                } label: {
-                    Label(LocalString.common_tab_menu_settings, systemImage: "gear")
+            } else {
+                ToolbarItemGroup(placement: .primaryAction) {
+                    if !Brand.hideFindInPage {
+                        ContentSearchButton(browser: browser)
+                    }
+                    Button {
+                        showSettings()
+                    } label: {
+                        Label(LocalString.common_tab_menu_settings, systemImage: "gear")
+                    }
                 }
             }
         }
