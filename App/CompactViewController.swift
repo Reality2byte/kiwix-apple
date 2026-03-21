@@ -24,130 +24,8 @@ import UIKit
 import CoreData
 import Defaults
 
-/// Bridge between UIKit and SwiftUI search state and dismiss
-private final class SearchUpdate: ObservableObject {
-    @Published var isSearching: Bool = false
-    var dismiss: (() -> Void)?
-}
-
 // iPhone portrait only
-final class CompactViewController: UIHostingController<AnyView>, UISearchControllerDelegate, UISearchResultsUpdating {
-    private let searchViewModel: SearchViewModel
-    private let searchController: UISearchController
-    private var searchTextObserver: AnyCancellable?
-    private var openURLTask: Task<Void, Error>?
-
-    private var trailingNavItemGroups: [UIBarButtonItemGroup] = []
-    private var rightNavItem: UIBarButtonItem?
-    private let navigation: NavigationViewModel
-    private var navigationItemObserver: AnyCancellable?
-    // bridge down to Content's SwiftUI state
-    private var searchUpdate = SearchUpdate()
-
-    init(navigation: NavigationViewModel) {
-        self.navigation = navigation
-        searchViewModel = SearchViewModel.shared
-        let searchResult = SearchResults().environmentObject(searchViewModel)
-        searchController = UISearchController(searchResultsController: UIHostingController(rootView: searchResult))
-        super.init(rootView: AnyView(CompactViewWrapper().environmentObject(searchUpdate)))
-        searchController.searchResultsUpdater = self
-        searchUpdate.dismiss = { [weak self] in self?.onSearchCancelled() }
-    }
-
-    @MainActor required dynamic init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        navigation.observeOpeningFiles()
-        navigationItemObserver = navigation.$currentItem
-            .receive(on: DispatchQueue.main)
-            .sink(receiveValue: { [weak self] currentItem in
-                if currentItem != .loading {
-                    self?.navigationController?.isToolbarHidden = false
-                    self?.navigationController?.isNavigationBarHidden = false
-                    // listen to only the first change from .loading to something else
-                    self?.navigationItemObserver?.cancel()
-                }
-            })
-
-        // the .loading initial state:
-        navigationController?.isToolbarHidden = true
-        navigationController?.isNavigationBarHidden = true
-        // eof .loading initial state
-
-        definesPresentationContext = true
-        navigationController?.toolbar.scrollEdgeAppearance = {
-            let apperance = UIToolbarAppearance()
-            apperance.configureWithDefaultBackground()
-            return apperance
-        }()
-        navigationItem.scrollEdgeAppearance = {
-            let apperance = UINavigationBarAppearance()
-            apperance.configureWithDefaultBackground()
-            return apperance
-        }()
-        searchController.searchBar.autocorrectionType = .no
-        navigationItem.titleView = searchController.searchBar
-        searchController.automaticallyShowsCancelButton = false
-        searchController.delegate = self
-        searchController.hidesNavigationBarDuringPresentation = false
-        searchController.showsSearchResultsController = true
-        searchController.searchBar.searchTextField.placeholder = LocalString.common_search
-
-        searchTextObserver = searchViewModel.$searchText.sink { [weak self] searchText in
-            guard self?.searchController.searchBar.text != searchText else { return }
-            self?.searchController.searchBar.text = searchText
-        }
-        openURLTask = Task { @MainActor [weak self]  in
-            for await _ in NotificationCenter.default.notifications(named: .openURL) {
-                self?.searchController.isActive = false
-                self?.navigationController?.navigationItem.setRightBarButton(nil, animated: true)
-            }
-        }
-    }
-
-    deinit {
-        openURLTask?.cancel()
-        openURLTask = nil
-    }
-
-    func willPresentSearchController(_ searchController: UISearchController) {
-        navigationController?.setToolbarHidden(true, animated: true)
-        searchUpdate.isSearching = true
-    }
-    
-    func onSearchCancelled() {
-        searchController.isActive = false
-        searchUpdate.isSearching = false
-    }
-
-    func willDismissSearchController(_ searchController: UISearchController) {
-        navigationController?.setToolbarHidden(false, animated: true)
-        searchViewModel.searchText = ""
-        searchUpdate.isSearching = false
-    }
-
-    func updateSearchResults(for searchController: UISearchController) {
-        searchViewModel.searchText = searchController.searchBar.text ?? ""
-    }
-}
-
-private struct CompactViewWrapper: View {
-    @EnvironmentObject private var navigation: NavigationViewModel
-    @EnvironmentObject var searchUpdate: SearchUpdate
-
-    var body: some View {
-        if case .loading = navigation.currentItem {
-            LoadingDataView()
-        } else if case let .tab(tabID) = navigation.currentItem {
-            CompactView(tabID: tabID)
-        }
-    }
-}
-
-private struct CompactView: View {
+struct CompactTabView: View {
     @EnvironmentObject private var navigation: NavigationViewModel
     @EnvironmentObject private var library: LibraryViewModel
     @State private var presentedSheet: PresentedSheet?
@@ -289,8 +167,6 @@ private struct Content<LaunchModel>: View where LaunchModel: LaunchProtocol {
     let showSettings: () -> Void
     @ObservedObject var model: LaunchModel
     
-    // comes from all the way from CompactViewController's UIKit search bar
-    @EnvironmentObject private var searchUpdate: SearchUpdate
     @Environment(\.scenePhase) private var scenePhase
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     @EnvironmentObject private var library: LibraryViewModel
@@ -351,24 +227,14 @@ private struct Content<LaunchModel>: View where LaunchModel: LaunchProtocol {
             }
         }
         .toolbar {
-            if searchUpdate.isSearching {
-                ToolbarItem(placement: .primaryAction) {
-                    Button { [weak searchUpdate] in
-                        searchUpdate?.dismiss?()
-                    } label: {
-                        Text(LocalString.common_button_cancel)
-                    }
+            ToolbarItemGroup(placement: .primaryAction) {
+                if !Brand.hideFindInPage {
+                    ContentSearchButton(browser: browser)
                 }
-            } else {
-                ToolbarItemGroup(placement: .primaryAction) {
-                    if !Brand.hideFindInPage {
-                        ContentSearchButton(browser: browser)
-                    }
-                    Button {
-                        showSettings()
-                    } label: {
-                        Label(LocalString.common_tab_menu_settings, systemImage: "gear")
-                    }
+                Button {
+                    showSettings()
+                } label: {
+                    Label(LocalString.common_tab_menu_settings, systemImage: "gear")
                 }
             }
         }
@@ -385,15 +251,11 @@ private struct Content<LaunchModel>: View where LaunchModel: LaunchProtocol {
 
     private func showTheLibrary() {
         guard model.state.shouldShowCatalog else { return }
-        #if os(macOS)
-        navigation.currentItem = .categories
-        #else
         if horizontalSizeClass == .regular {
             navigation.currentItem = .categories
         } else {
             showLibrary()
         }
-        #endif
     }
 }
 #endif
