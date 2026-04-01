@@ -43,7 +43,7 @@ struct OPDSParserTests {
 
     
     @Test("OPDSParser can parse and extract zim file metadata.")
-    @ZimActor func parseAndExtract() async throws {
+    @ParserActor func parseAndExtract() async throws {
         let content = """
         <feed xmlns="http://www.w3.org/2005/Atom"
               xmlns:dc="http://purl.org/dc/terms/"

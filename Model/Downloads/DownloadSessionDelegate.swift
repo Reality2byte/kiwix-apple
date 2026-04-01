@@ -94,6 +94,7 @@ final class DownloadSessionDelegate: NSObject, URLSessionDownloadDelegate {
             
             await Database.shared.viewContext.perform {
                 let request = DownloadTask.fetchRequest(fileID: zimFileID)
+                request.fetchLimit = 1
                 guard let downloadTask = try? request.execute().first else { return }
                 downloadTask.error = error.localizedDescription
                 let context = Database.shared.viewContext
@@ -238,7 +239,9 @@ due to: \(error.localizedDescription, privacy: .public)
         guard settings.authorizationStatus != .denied else { return }
          
         let zimFileName: String? = await Database.shared.viewContext.perform {
-            if let zimFile = try? ZimFile.fetchRequest(fileID: zimFileID).execute().first {
+            let request = ZimFile.fetchRequest(fileID: zimFileID)
+            request.fetchLimit = 1
+            if let zimFile = try? request.execute().first {
                 return zimFile.name
             } else {
                 return nil

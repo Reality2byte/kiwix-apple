@@ -15,14 +15,14 @@
 
 extension OPDSParser {
     
-    @ZimActor
+    @ParserActor
     func parse(data: Data, urlHost: String) async throws {
         if !self.__parseData(data, using: urlHost.removingSuffix("/")) {
             throw LibraryRefreshError.parse
         }
     }
     
-    @ZimActor
+    @ParserActor
     func results() async -> Parsed {
         let zimFileIDs = __getZimFileIDs() as? Set<UUID> ?? Set<UUID>()
         
@@ -38,7 +38,7 @@ extension OPDSParser {
         return Parsed(results: dict)
     }
     
-    @ZimActor
+    @ParserActor
     func getMetaData(id: UUID, fetchFavicon: Bool) -> ZimFileMetaStruct? {
         ZimFileService.metaStruct(from: __getZimFileMetaData(id, fetchFavicon: fetchFavicon))
     }
