@@ -44,6 +44,7 @@ struct LibraryOperations {
         await Database.shared.viewContext.perform {
             let predicate = NSPredicate(format: "fileID == %@", metastruct.fileID as CVarArg)
             let fetchRequest = ZimFile.fetchRequest(predicate: predicate)
+            fetchRequest.fetchLimit = 1
             let context = Database.shared.viewContext
             guard let zimFile = try? fetchRequest.execute().first ?? ZimFile(context: context) else {
                 return
@@ -57,11 +58,23 @@ struct LibraryOperations {
         }
         return metastruct
     }
+    
+    /// Makes sure that on app start the inital task we await for
+    /// and the scene phase change are not triggering twice the reValidate()
+    @MainActor
+    private static var isReValidating: Bool = false
 
     /// Revalidate ZIM files from url bookmark data
     /// Marks all missing zimfiles in the DB
     @MainActor
     static func reValidate() async {
+        guard !isReValidating else {
+            return
+        }
+        isReValidating = true
+        defer {
+            isReValidating = false
+        }
         var successCount = 0
         let context = Database.shared.viewContext
         let request = ZimFile.fetchRequest(predicate: ZimFile.Predicate.isDownloaded())
@@ -81,7 +94,7 @@ struct LibraryOperations {
                 zimFile.isMissing = false
                 successCount += 1
                 Log.LibraryOperations.notice("""
-ZIM file opened: \(zimFile.name, privacy: .public) |\
+ZIM file reValidated: \(zimFile.name, privacy: .public) |\
 \(downloadPath, privacy: .public)
 """)
             } catch ZimFileOpenError.missing {
@@ -104,24 +117,8 @@ ZIM file cannot be opened: \(zimFile.name, privacy: .public) |\
             }
         }
         Log.LibraryOperations.info(
-            "Reopened \(successCount, privacy: .public) out of \(zimFiles.count, privacy: .public) zim files"
+            "Re-validated \(successCount, privacy: .public) out of \(zimFiles.count, privacy: .public) zim files"
         )
-    }
-
-    /// Scan a directory and open available zim files inside it
-    /// - Parameter url: directory to scan
-    static func scanDirectory(_ url: URL) {
-        guard let fileURLs = try? FileManager.default.contentsOfDirectory(
-            at: url,
-            includingPropertiesForKeys: nil,
-            options: [.skipsHiddenFiles, .skipsPackageDescendants, .skipsSubdirectoryDescendants]
-        ).filter({ $0.pathExtension == "zim"}) else { return }
-        Log.LibraryOperations.info("Discovered \(fileURLs.count, privacy: .public) probable zim files.")
-        Task {
-            for fileURL in fileURLs {
-                await LibraryOperations.open(url: fileURL)
-            }
-        }
     }
 
     // MARK: - Configure
@@ -165,7 +162,9 @@ ZIM file cannot be opened: \(zimFile.name, privacy: .public) |\
     @ZimActor static func unlink(zimFileID: UUID) async {
         ZimFileService.shared.close(fileID: zimFileID)
         await Database.shared.viewContext.perform {
-            guard let zimFile = try? ZimFile.fetchRequest(fileID: zimFileID).execute().first else {
+            let request = ZimFile.fetchRequest(fileID: zimFileID)
+            request.fetchLimit = 1
+            guard let zimFile = try? request.execute().first else {
                 return
             }
             let context = Database.shared.viewContext

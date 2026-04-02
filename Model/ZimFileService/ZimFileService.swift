@@ -19,6 +19,10 @@ import Foundation
     static let shared = ZimActor()
 }
 
+@globalActor actor ParserActor {
+    static let shared = ParserActor()
+}
+
 @ZimActor
 struct ZimFileService {
     static let shared = ZimFileService()

@@ -249,7 +249,7 @@ total: \(totalCount, privacy: .public)
         }
     }
 
-    @ZimActor
+    @ParserActor
     private func parse(data: Data, urlHost: URL) async throws -> Parsed {
         let parser = OPDSParser()
         let urlHostString = urlHost

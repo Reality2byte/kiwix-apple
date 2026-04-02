@@ -76,10 +76,11 @@ final class DownloadService {
     /// - Parameters:
     ///   - zimFile: the zim file to download
     ///   - allowsCellularAccess: if using cellular data is allowed
-    func start(zimFileID: UUID, allowsCellularAccess: Bool) async {
+    func start(zimFileID: UUID, allowsCellularAccess: Bool) async { // swiftlint:disable:this function_body_length
         requestNotificationAuthorization()
         let downloadStruct = await Database.shared.viewContext.perform { () -> DownloadZimStruct? in
             let fetchRequest = ZimFile.fetchRequest(fileID: zimFileID)
+            fetchRequest.fetchLimit = 1
             guard let zimFile = try? fetchRequest.execute().first,
                   var url = zimFile.downloadURL else {
                 return nil
@@ -180,6 +181,7 @@ final class DownloadService {
         
         await Database.shared.viewContext.perform { [resumeData] in
             let request = DownloadTask.fetchRequest(fileID: zimFileID)
+            request.fetchLimit = 1
             guard let downloadTask = try? request.execute().first else { return }
             
             let task = self.session.downloadTask(withResumeData: resumeData)

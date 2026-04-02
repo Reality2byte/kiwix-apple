@@ -35,6 +35,7 @@ struct DownloadTaskManager {
         await Database.shared.viewContext.perform {
             do {
                 let request = DownloadTask.fetchRequest(fileID: zimFileID)
+                request.fetchLimit = 1
                 guard let downloadTask = try request.execute().first else { return }
                 let context = Database.shared.viewContext
                 context.delete(downloadTask)
