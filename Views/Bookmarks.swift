@@ -31,7 +31,7 @@ struct Bookmarks: View {
         LazyVGrid(columns: ([gridItem]), spacing: 12) {
             ForEach(bookmarks, id: \.self) { bookmark in
                 Button {
-                    NotificationCenter.openURL(bookmark.articleURL)
+                    NotificationCenter.openURL(bookmark.articleURL, inNewTab: true)
                     if horizontalSizeClass == .compact {
                         dismiss()
                     }
