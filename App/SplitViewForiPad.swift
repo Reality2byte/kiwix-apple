@@ -14,11 +14,12 @@
 // along with Kiwix; If not, see https://www.gnu.org/licenses/.
 
 #if os(iOS)
+import CoreData
 import Foundation
 import SwiftUI
 
 @MainActor
-struct SplitViewForiPad: View {
+struct SplitViewForiPad: View { // swiftlint:disable:this type_body_length
     @EnvironmentObject var navigation: NavigationViewModel
     // start with side menu collapsed state by default
     @State private var columnVisibility: NavigationSplitViewVisibility = .detailOnly
@@ -26,6 +27,7 @@ struct SplitViewForiPad: View {
     @State private var menuDict: [MenuSection: [MenuItem]] = MenuSection.staticDictionary
     @State private var selection: MenuItem?
     @State private var navPath = NavigationPath()
+    @State private var titleUpdate: (NSManagedObjectID, String)?
     @FetchRequest(
         sortDescriptors: [NSSortDescriptor(key: "created", ascending: true)],
         predicate: Tab.Predicate.notMissing(),
@@ -33,7 +35,6 @@ struct SplitViewForiPad: View {
     ) private var tabs: FetchedResults<Tab>
     private let selectFileById = NotificationCenter.default.publisher(for: .selectFile)
     @State private var hasZimFiles: Bool?
-    @State private var openingFilesTask: Task<Void, Never>?
     @State private var navigateToHotspotSettingsTask: Task<Void, Never>?
 
     var body: some View {
@@ -72,7 +73,9 @@ struct SplitViewForiPad: View {
             NavigationStack(path: $navPath) {
                 switch selection {
                 case .tab(let tabID):
-                    BrowserTab(tabID: tabID).id(tabID)
+                    BrowserTab(tabID: tabID, didChangeTitle: { (updatedTabId: NSManagedObjectID, newTitle: String) in
+                        titleUpdate = (updatedTabId, newTitle)
+                    }).id(tabID)
                 case .bookmarks:
                     Bookmarks()
                 case .opened:
@@ -182,10 +185,17 @@ struct SplitViewForiPad: View {
     
     @ViewBuilder
     private func labelFor(tab: Tab) -> some View {
-        let text = tab.title ?? LocalString.common_tab_menu_new_tab
+        let labelText: String = {
+            if let (updatedTabId, updatedTabTitle) = titleUpdate,
+               updatedTabId == tab.objectID {
+                return updatedTabTitle
+            } else {
+                return tab.title ?? LocalString.common_tab_menu_new_tab
+            }
+        }()
 
         Label {
-            Text(text)
+            Text(labelText)
                 .lineLimit(1)
                 .truncationMode(.tail)
         } icon: {
