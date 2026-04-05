@@ -23,8 +23,11 @@ struct BrowserTab: View {
     @Environment(\.scenePhase) private var scenePhase
     @EnvironmentObject private var library: LibraryViewModel
     @StateObject private var search = SearchViewModel.shared
+    /// used on iPad
+    private let didChangeTitle: ((NSManagedObjectID, String) -> Void)?
 
-    init(tabID: NSManagedObjectID) {
+    init(tabID: NSManagedObjectID, didChangeTitle: ((NSManagedObjectID, String) -> Void)? = nil) {
+        self.didChangeTitle = didChangeTitle
         self.browser = BrowserViewModel.getCached(tabID: tabID)
     }
 
@@ -148,6 +151,10 @@ struct BrowserTab: View {
         }
         .task { [weak browser] in
             await browser?.updateLastOpened()
+        }
+        .onChange(of: browser.articleTitle) { [weak browser] oldTitle, newTitle in
+            guard let browser, newTitle != oldTitle else { return }
+            didChangeTitle?(browser.tabID, newTitle)
         }
         .onDisappear { [weak browser] in
             browser?.pauseVideoWhenNotInPIP()
