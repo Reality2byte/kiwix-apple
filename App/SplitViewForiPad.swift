@@ -17,6 +17,7 @@
 import CoreData
 import Foundation
 import SwiftUI
+import Defaults
 
 @MainActor
 struct SplitViewForiPad: View { // swiftlint:disable:this type_body_length
@@ -114,7 +115,7 @@ struct SplitViewForiPad: View { // swiftlint:disable:this type_body_length
             if newValue != oldValue {
                 if hasZimFiles == true, newValue != .loading {
                     // allow the side menu to be displayed
-                    columnVisibility = .automatic
+                    columnVisibility = Defaults[.ipadSplitViewVisibility]
                 } else if hasZimFiles == false {
                     columnVisibility = .detailOnly
                 }
@@ -128,6 +129,9 @@ struct SplitViewForiPad: View { // swiftlint:disable:this type_body_length
             }
             navPath.append(fileId)
         })
+        .onDisappear {
+            Defaults[.ipadSplitViewVisibility] = columnVisibility
+        }
     }
     
     @ViewBuilder
