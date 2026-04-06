@@ -15,6 +15,7 @@
 
 import Defaults
 import Foundation
+import SwiftUI
 
 extension Defaults.Keys {
 //    // reading
@@ -54,4 +55,13 @@ extension Defaults.Keys {
     // window management:
     static let windowURLs = Key<[URL]>("windowURLs", default: [])
     #endif
+    
+    #if os(iOS)
+    static let ipadSplitViewVisibility = Key<NavigationSplitViewVisibility>(
+        "ipadSplitViewVisibility",
+        default: NavigationSplitViewVisibility.automatic
+    )
+    #endif
 }
+
+extension NavigationSplitViewVisibility: Defaults.Serializable {}
