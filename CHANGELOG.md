@@ -1,13 +1,43 @@
+# 3.15.0
+
 # 3.14.0
 
+- NEW:
+    - Add bug report template (@BPerlakiH #1488)
+- UPDATED:
+    - Use a shared date formatter for parsing data (@BPerlakiH #1499)
+    - Udpate to Swift 6 (@BPerlakiH #1495)
+    - Settings order (@BPerlakiH #1487)
+    - Update to libkiwix-14.2.0 (@BPerlakiH #1506)
+    - Remove bird from dark mode logo (@BPerlakiH #1507)
+    - Replace uikit splitview (@BPerlakiH #1509)
+    - Swift 6 update to stripe-apple 25.7.2, fix payment sheet (@BPerlakiH #1511)
+    - Update LICENSE file (@BPerlakiH #1517)
+    - Replace search for compact view (@BPerlakiH #1518)
+    - Update diagnostic state to run in background (@BPerlakiH #1524)
+    - libkiwix-14.2.0-1 (with libzim 9.6.0) (@kelson42 #1535)
+    - Update diagnostics report labels (@BPerlakiH #1539)
+    - Localisation updates from https://translatewiki.net (@translatewiki #1491, #1505, #1508, #1512)
+- FIX:
+    - Fix button text tinting on macOS 26 in Light mode (@william-laverty #1501)
+    - Fix deeplink handling for invalid file (@BPerlakiH #1504)
+    - Fix search bar in compact mode (@BPerlakiH #1514)
+    - Fix macOS autolayout including video fullscreen as well (@BPerlakiH #1516)
+    - Fix slow app start (@BPerlakiH #1526)
+    - Fix bookmark links to open in tab (@BPerlakiH #1528)
+    - Fix nav sidebar title updates on iPad (@BPerlakiH #1530)
+    - Save split view sidebar state (@BPerlakiH #1534)
+    - Move diagnostics start task to async (@BPerlakiH #1532)
+
 # 3.13.0
-  - NEW:
+
+- NEW:
     - Add .editorconfig file (@BPerlakiH #1485)
-  - UPDATED:
+- UPDATED:
     - Update project to version 3.13.0 (@BPerlakiH #1458)
     - Update to libkiwix 14.1.1-1 and libzim 9.5.0 (@BPerlakiH #1469)
     - Localisation updates from https://translatewiki.net (@translatewiki #1464, #1474, #1477)
-  - FIX:
+- FIX:
     - Preserve category selection (@BPerlakiH #1460)
     - Fix macOS 26 cell backgrounds (@BPerlakiH #1462)
     - Use full keyboard for hotspot port input on iPad (@BPerlakiH #1463)
@@ -19,9 +49,10 @@
     - Concurrent search and validation (@BPerlakiH #1484)
 
 # 3.12.0
-  - NEW:
+
+- NEW:
     - ZIM file validation feature (@BPerlakiH #1379, #1394, #1404)
-  - UPDATED:
+- UPDATED:
     - Update project and version numbers (@BPerlakiH #1378, #1431)
     - Bump up build version to be 3.12.0 (@BPerlakiH )
     - Increase the macOS build number (@BPerlakiH #1393)
@@ -36,7 +67,7 @@
     - Remove URL from download description (@BPerlakiH #1441)
     - Remember selected category (@BPerlakiH #1444)
     - Localisation updates from https://translatewiki.net (@translatewiki #1377, #1381, #1392, #1395, #1405, #1411, #1415, #1428, #1445, #1449)
-  - FIX:
+- FIX:
     - Fix log values to be included in the diagnostics report (@BPerlakiH #1382)
     - Fix download task out of sync with zimFile (@BPerlakiH #1383)
     - Disable download pause for mid-state (@BPerlakiH #1385)
@@ -52,22 +83,24 @@
     - Limit memory usage (@BPerlakiH #1454)
 
 # 3.11.1
-  - NEW:
+
+- NEW:
     - ZIM file validation feature(@BPerlakiH #1379)
-  - FIX:
+- FIX:
     - macOS crash when opening downloads tab (@BPerlakiH #1383)
     - Immediate pause of downloads (@BPerlakiH #1385)
-  - UPDATED:
+- UPDATED:
     - Extended download diagnostics (@BPerlakiH #1386)
 
 # 3.11.0
-  - NEW:
+
+- NEW:
     - Hotspot for custom apps (@BPerlakiH #1331)
     - Spellchecked search results (@BPerlakiH #1326, #1362)
     - Confirmation of download when file already exists (@BPerlakiH #1364)
     - Diagnostics feature (@BPerlakiH #1313)
 
-  - UPDATED:
+- UPDATED:
     - Update project and build version to be 3.11.0 (@BPerlakiH #1291)
     - Update Apple-Pay to 24.23.0 (@BPerlakiH #1294)
     - Set default Hotspot port to 80 (@BPerlakiH #1298)
@@ -81,7 +114,7 @@
     - Localisation updates from https://translatewiki.net (@translatewiki #1285, #1296, #1316, #1323, #1334, #1343, #1346, #1363, #1370)
     - Reverse tab order (@BPerlakiH #1375)
 
-  - FIX:
+- FIX:
     - Fix blinking on appDidBecomeActive (@BPerlakiH #1292)
     - Fix tabs overlay for iOS 26 (@BPerlakiH #1306)
     - Fix state for unreachable ZIM files (@BPerlakiH #1301)
@@ -99,16 +132,18 @@
     - Fix webview background in dark mode (@BPerlakiH #1372)
 
 # 3.10.1
-  - UPDATE
+
+- UPDATE
     - Localisation updates (@translatewiki #1269, #1284)
     - Kiwix Hotspot (@BPerlakiH #1278, #1279, #1280, #1281, #1282, #1283, #1286)
 
 # 3.10.0
-  - NEW
+
+- NEW
     - Custom Light/Dark theme settings (@BPerlakiH #1226, #1230, #1232)
     - Kiwix Hotspot (@BPerlakiH #1231, #1234, #1238, #1240, #1245, #1246, #1252, #1253, #1257, #1264)
 
-  - UPDATE
+- UPDATE
     - iPhone, iPad UI tests (@BPerlakiH #1218)
     - Localisation updates (@translatewiki #1206, #1223, #1233, #1239, #1242, #1248, #1254, #1263)
     - Unified naming for catalog / library (@BPerlakiH #1224)
@@ -116,21 +151,22 @@
     - Open ZIM file details when importing a single file (@BPerlakiH #1258)
     - Removed Tabs header in iOS side bar menu (@BPerlakiH #1268)
 
-  - FIX
+- FIX
     - sidebar item selection on app restart (@BPerlakiH #1211)
     - PhET initial webpage to be on screen for html canvas calculations (@BPerlakiH #1210)
     - CI tests (@BPerlakiH #1217, #1220, #1236)
     - PhET initial webView sizing (@BPerlakiH #1221)
 
 # 3.9.0
-  - NEW
+
+- NEW
     - macOS keyboard navigation in search (@BPerlakiH #1154, #1159)
     - macOS support multi selection of zimfiles for unlinking, and selection fixes (@BPerlakiH #1157, #1176)
     - macOS easy way to copy the current URL (@BPerlakiH #1199)
     - iOS re-arranged navigation buttons, making the randomizer button more accessible (@BPerlakiH #1200)
     - UITests added (@BPerlakiH #1195)
 
-  - UPDATE
+- UPDATE
     - Localisation updates (@translatewiki #1131, #1143, #1156, #1160, #1165, #1173, #1196, #1202)
     - iPad Re-arrange donation button (@BPerlakiH #1139, #1151, #1187)
     - Delete/unlink buttons were moved to the bottom of detail pages (@BPerlakiH #1158)
@@ -139,7 +175,7 @@
     - Library endpoint changes (BPerlakiH #1198)
     - Optionally disable TOC Button, Share button, Find in Page (custom apps) (@BPerlakiH #1185)
 
-  - FIX
+- FIX
     - Performance improvements (@BPerlakiH #1168)
     - iPad Remember side menu selection after background / foreground (@BPerlakiH #1141)
     - macOS side menu optimalization (@BPerlakiH #1135)
@@ -151,7 +187,8 @@
     - macOS deeplink to window behaviour (@BPerlakiH #1191)
 
 # 3.8.0
-  - UPDATE:
+
+- UPDATE:
     - Localisations (@translatewiki #1095, #1102, #1108)
     - Keyboard navigation improvements for macOS (@BPerlakiH #1084)
     - Safety measures for translations (@BPerlakiH #1089)
@@ -159,7 +196,7 @@
     - README.md (@anupulu, @BPerlakiH #1109, #1110)
     - Github Actions to macOS 14, XCode 16.2 (@BPerlakiH #1120, #1121, #1123, #1127, #1128)
     - SPM Dependency "Defaults" to 8.2 (@BPerlakiH #1111)
-  - FIX:
+- FIX:
     - Inlining the Kiwix side menu title on iPad (@BPerlakiH #1069)
     - Localisation for donation button (@BPerlakiH #1087)
     - CI unit tests on macOS (@BPerlakiH #1082)
@@ -170,11 +207,12 @@
     - Side menu performance improvements (@BPerlakiH #1125)
 
 # 3.7.1
-  - UPDATE:
+
+- UPDATE:
     - Localisations (@translatewiki #1056, #1070)
     - CI to Xcode 15.2 (@BPerlakiH #1062)
     - Removed unused parts from CI / CD (@BPerlakiH #1066)
-  - FIX:
+- FIX:
     - Opening deeplinks (@BPerlakiH #1048)
     - Open new tab via http blank link (@BPerlakiH #1064)
     - Removed empty help menu from macOS (@BPerlakiH #1078)
@@ -183,24 +221,26 @@
     - Removed support / donation for macOS FTP builds, as it's not supported outside of AppStore (@BPerlakiH #1074)
 
 # 3.7.0
-  - NEW:
+
+- NEW:
     - Support Kiwix with Apple Pay donation (@BPerlakiH @rgaudin #1022, #1045, #1046, #1049)
-  - UPDATE:
+- UPDATE:
     - Localisations (@translatewiki #1043, #1051)
-  -FIX:
+      -FIX:
     - Opening deeplinks (@BPerlakiH #1048)
 
 ## 3.6.0
-  - NEW:
+
+- NEW:
     - App launch sequence (@BPerlakiH #1019, #1014, #1008)
-  - UPDATE:
+- UPDATE:
     - Kiwix logo icons (@BPerlakiH #1021, #1017)
     - Optimised Catalog fetching (@BPerlakiH #1034)
     - Hiding navigation bar for full screen reading on iPad (@BPerlakiH #995)
     - Improved book opening and start up time (@BPerlakiH #974, #987, #1000)
     - LibKiwix version 14.0.0 (@BPerlakiH #1004)
     - URL scheme change from kiwix:// to zim:// (@BPerlakiH #961)
-  - FIX:
+- FIX:
     - Reader support for iFrames with srcdoc attribute (@BPerlakiH #1028)
     - Deleting ZIM file should close the opened tab (@BPerlakiH #1005, #999)
     - Large downloads do not show completion in UI (@BPerlakiH #998)
@@ -209,28 +249,31 @@
     - Opening external ZIM file (@BPerlakiH #968, #1030)
 
 ## 3.5.2
+
 - FIX:
-  - Opening ZIM file from macOS Finder (@BPerlakiH #968)
+    - Opening ZIM file from macOS Finder (@BPerlakiH #968)
 
 ## 3.5.1
+
 - FIX:
-  - Leaving or entering PIP pause the video (@BPerlakiH #948)
-  - Fix search bar inconsistencies on iPhone (@BPerlakiH #947)
+    - Leaving or entering PIP pause the video (@BPerlakiH #948)
+    - Fix search bar inconsistencies on iPhone (@BPerlakiH #947)
 
 ## 3.5.0
-  - NEW:
+
+- NEW:
     - Implement „Find in page" (@BPerlakiH #849 #872)
     - Support range requests for video content (@BPerlakiH @rgaudin #894)
     - Integrate Codecov to the CI (@BPerlakiH #907)
     - Download error feedback (@BPerlakiH #912)
-  - UPDATE:
+- UPDATE:
     - Remove bookmark image and snippets (@BPerlakiH #830)
     - Change search snippets settings to be a toggle (@BPerlakiH #873)
     - Resolve Swift Package Dependencies Automatically on checkout (@BPerlakiH #864)
     - Remove BackPorts dependency (@BPerlakiH #867)
     - Search in descriptions of ZIM files as well (@BPerlakiH #904 #910)
     - Auto update of library, remove iOS background processing (@BPerlakiH #926)
-  - FIX:
+- FIX:
     - After resuming iOS app video displayed black (@BPerlakiH #801 #846)
     - ZIM metadata „illustration“ is not read properly (@BPerlakiH #811)
     - Export of a PDF fails iOS (@BPerlakiH #820 #840)
@@ -261,7 +304,8 @@
     - Blank search results (@BPerlakiH #943)
 
 ## 3.4.0
-  - FIX:
+
+- FIX:
     - Empty screen after re-opening ZIM home page (@BPerlakiH #834)
     - tab reconfiguration, improve the look of icons (@BPerlakiH #832)
     - bookmark titles for non html content (@BPerlakiH #826)
@@ -278,11 +322,11 @@
     - macOS webView full-screen mode (@BPerlakiH #791)
     - video full screen mode for macOS (@BPerlakiH #763)
     - CI/CD target FTP folder for release (@rgaudin #757)
-  - NEW:
+- NEW:
     - stream data in chunks for compressed data via libzim (@BPerlakiH #790)
     - stream uncompressed data in chunks (@BPerlakiH #778 #774)
     - full screen reading mode for iOS (@TheRealAnt @BPerlakiH #771 #764)
-  - UPDATE:
+- UPDATE:
     - Translations (#833, #821, #813, #777, #770, #761)
     - to libkiwix 13.1.0-4 (@BPerlakiH #836)
     - readme on how to debug webviews (@BPerlakiH #822)
@@ -297,30 +341,30 @@
 - NEW: Introduce ability to build custom apps (@BPerlakiH #550 #554 #555 #565 #573 #576 #584 #595)
 - NEW: Build nightlies (@rgaudin #560)
 - NEW: Migrate bookmarks - in custom apps (@BPerlakiH #688)
-  - Multiple fixes around 'wicked' download (@BPerlakiH #563 #686)
-  - Default language content filtering (@BPerlakiH #652)
-  - Stop display empty categories (@BPerlakiH #657)
-  - One search crashing scenario (@BPerlakiH #637)
+    - Multiple fixes around 'wicked' download (@BPerlakiH #563 #686)
+    - Default language content filtering (@BPerlakiH #652)
+    - Stop display empty categories (@BPerlakiH #657)
+    - One search crashing scenario (@BPerlakiH #637)
 - UPDATE: Introduce libkiwix 13 support (@rgaudin #534)
 - UPDATE: Improved README file (@kelson42 #533 #683 @BPerlakiH #658)
 - UPDATE: Use latest feed from library.kiwix.org (@BPerlakiH #653)
 - DEL: Old Wikimed related code - is now a proper custom app (@BPerlakiH #636)
-  - iOS tab selection after the selected tab is deleted (@BPerlakiH #692)
+    - iOS tab selection after the selected tab is deleted (@BPerlakiH #692)
 - UPDATE: Add background processing and audio capabilities for video playback (@BPerlakiH #738)
 - NEW: Print an article on macOS (@BPerlakiH #736)
-  - Exception handling in corrupted ZIM files (@BPerlakiH #622)
+    - Exception handling in corrupted ZIM files (@BPerlakiH #622)
 - NEW: Export and share an article (@BPerlakiH #729)
 - UPDATE: LibKiwix 13.1.0-1 (@BPerlakiH #731)
-  - Dismiss iOS modals (@BPerlakiH #728)
-  - Invalid tab state after unlinking ZIM file on macOS (@BPerlakiH #723)
+    - Dismiss iOS modals (@BPerlakiH #728)
+    - Invalid tab state after unlinking ZIM file on macOS (@BPerlakiH #723)
 - UPDATE: Readme on XCode white space settings (@BPerlakiH #722)
 - UPDATE: File headers and new file template to GPL-3 (@kelson42 @BPerlakiH #719)
 - NEW: Add support menu item on macOS (@DobleV55 @BPerlakiH #705)
-  - Custom apps should request only necessary permissions (@BPerlakiH #712)
-  - UTF-8 encoding for HTTP headers for text/plain type (@BPerlakiH #707)
+    - Custom apps should request only necessary permissions (@BPerlakiH #712)
+    - UTF-8 encoding for HTTP headers for text/plain type (@BPerlakiH #707)
 - NEW: Remove long press from bookmarks menu item (@BPerlakiH #695)
 - NEW: Re-arrange menu items, remove long press functionality (@BPerlakiH #694)
-  - Tab selection after deleting a tab (@BPerlakiH #693)
+    - Tab selection after deleting a tab (@BPerlakiH #693)
 - DELETE: Support menu item on macOS (@BPerlakiH #752)
 
 ## 3.2
@@ -421,10 +465,10 @@ Technical:
 - Main Page Button: tap to go to main page of the current article
 - Long press on random article or main page button to choose from all on device zim files (not available on iOS 12 & 13)
 - Link Preview: tap and hold on a link to see preview of the article (not available on iOS 12)
-- UI updates in app settings  (not available on iOS 12)
+- UI updates in app settings (not available on iOS 12)
 - Remove support for iOS 11 (We are committed to support last three major OS)
-  - library related crashings
-  - zim file icon transluency
+    - library related crashings
+    - zim file icon transluency
 
 Technical:
 
@@ -454,7 +498,7 @@ Technical:
 
 - bookmark snippets are now using the first sentence (iOS 12 and above) or the first paragraph (iOS 11)
 - small tweaks of sidebar and outline for a better UX
-  - now use zim file title as bookmark title when the article doesn't have a title
+    - now use zim file title as bookmark title when the article doesn't have a title
 
 ## 1.13.3
 
@@ -466,7 +510,6 @@ Technical:
 - updated version of libkiwix and dependencies to resolve an issue where the app couldn't open some of the latest zim files
 - updated version of realm to 5.2
 
-
 ## 1.13.1
 
 - Resource unavailable alert: shown when a link was taped on, but the zim file is deleted.
@@ -476,16 +519,16 @@ Technical:
 ## 1.13
 
 - article outline improvements:
-  - show article title in the navigation bar if available
-  - prevent too much indentation when there is only one `h1` element in the article
-  - list row separators now indent together with the text (so that it is easier to figure out the structure)
-  - iPad: fixed an issue where search is not hidden if already visible when tapping on a outline row
-  - for MediaWiki based zim files, sections are expanded when reading on horizontally narrow interface; if a section is already collapsed, tap on a outline item will expand that section
+    - show article title in the navigation bar if available
+    - prevent too much indentation when there is only one `h1` element in the article
+    - list row separators now indent together with the text (so that it is easier to figure out the structure)
+    - iPad: fixed an issue where search is not hidden if already visible when tapping on a outline row
+    - for MediaWiki based zim files, sections are expanded when reading on horizontally narrow interface; if a section is already collapsed, tap on a outline item will expand that section
 - iPad users can customize how side bar is displayed -- automatic, side by side or overlay
 - setting for excluding zim files in backup is moved inside the library info interface
 - bring back title based search results
 - (iOS 13) some UI improvement / updates in search filter interface
-  - the "All" button would now change to "None" if all zim files are included in search
+    - the "All" button would now change to "None" if all zim files are included in search
 
 Technical:
 
@@ -509,40 +552,39 @@ Other New Stuff:
 
 Bug fixes:
 
-  - swipe back gesture was not working due to conflict with gesture to show sidebar
-  - favicon would disappear for existing zim files after library manual refresh
-  - sometimes the search filters fails to update when a zim file has been added or removed
-  - Incorrect alphabetical ordering for library lanugage selector
+- swipe back gesture was not working due to conflict with gesture to show sidebar
+- favicon would disappear for existing zim files after library manual refresh
+- sometimes the search filters fails to update when a zim file has been added or removed
+- Incorrect alphabetical ordering for library lanugage selector
 
 ## 1.11.1 (May 7, 2020)
 
-  - font size not applied after article is loaded
-  - snippet text color is too dark to read in dark mode
-  - sometimes the font size setting prview becomes too tall
-  - app launching issue for iOS 11 & 12 users
+- font size not applied after article is loaded
+- snippet text color is too dark to read in dark mode
+- sometimes the font size setting prview becomes too tall
+- app launching issue for iOS 11 & 12 users
 - new: integration with OPDS API for library catalog refreshing
-
 
 ## 1.11 (Jan 12, 2020)
 
 A redesigned iPad interface
 Fixing an issue where app creashed when attempting to save image to photo library
 
-
 ## 1.10 (Aug 10, 2019)
 
 Now you can importing zim files by:
+
 - open a zim file in the Files app
 - use "open in" feature from any app
-Better Files app integration:
+  Better Files app integration:
 - manage files stored in kiwix in Files app
 
 ## 1.9.7 (Jul 7, 2019)
 
-  - memory usage issue when performing searches
+- memory usage issue when performing searches
 - maintance updates:
-  - swift 5.2, version bump of libkiwix, realm and SwiftyUserDefaults
-  - removed third party library ProcedureKit, now use Foundation.OperationQueue to handle async tasks
+    - swift 5.2, version bump of libkiwix, realm and SwiftyUserDefaults
+    - removed third party library ProcedureKit, now use Foundation.OperationQueue to handle async tasks
 
 ## 1.9.6 (May 10, 2019)
 
@@ -552,29 +594,31 @@ Better Files app integration:
 - new version of libkiwix and Swift 4.2
 
 ## 1.9.4 (August 22, 2018)
+
 - NEW: sort languages in library language filter both by count or alphabetically
 - NEW: search for a zim file by name in library online catalog
 
 ## 1.9.1 (June 10, 2018)
+
 - Use Realm in replace of CoreData as database
 - Added Wiktionary, Wikiquote and Wikisource categories
-  - unable to detect embedded index in some situations
-  - unable to cancel erroneous download tasks
+    - unable to detect embedded index in some situations
+    - unable to cancel erroneous download tasks
 
 ## 1.9.0 (May 09, 2018)
 
 - New Library Design:
-  - ZIM files are grouped by topic categories
-  - ZIM file detail view
-  - Downloading content and catalog are displayed in one place
-  - On iPads, using a split view with ZIM file / categories on the left and detail on the right
+    - ZIM files are grouped by topic categories
+    - ZIM file detail view
+    - Downloading content and catalog are displayed in one place
+    - On iPads, using a split view with ZIM file / categories on the left and detail on the right
 - Bookmark
-  - Now displayed as a side panel on iPad
-  - Add / remove bookmark interface is now presented as a HUD and does not cover up all the screen space
+    - Now displayed as a side panel on iPad
+    - Add / remove bookmark interface is now presented as a HUD and does not cover up all the screen space
 - Reading
-  - Now ask users for confirmation when opening external links. Can be turned on or off in settings
+    - Now ask users for confirmation when opening external links. Can be turned on or off in settings
 - Core
-  - Massive multiple improvement of the ZIM file mgmt through introduction of Kiwix lib 2.0.
+    - Massive multiple improvement of the ZIM file mgmt through introduction of Kiwix lib 2.0.
 - An effort has been made to keep compatibility with iOS 10.
 
 ## 1.8.0 (March 03, 2017)
@@ -598,6 +642,7 @@ Better Files app integration:
 ## 1.6.0 (July 07, 2016)
 
 ### New
+
 - show recent search terms
 - search system now fetch result from both title search and index search and use a new ranking system to sort them
 - table of content
@@ -607,6 +652,7 @@ Better Files app integration:
 - enhanced UI when hSizeClass is regular
 
 ### Fixed
+
 - downloading / paused book purged when they are removed from online library
 - removed code that mistakenly indicates app use Wallet
 - open main page when first book finish downloaded
