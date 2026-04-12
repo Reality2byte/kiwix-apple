@@ -35,6 +35,12 @@ enum DownloadDestination {
         return directory
     }
     
+    #if os(macOS)
+    static func isUsersDefaultDownloads(directory: URL?) -> Bool {
+        directory?.resolvingSymlinksInPath() == downloadLocalFolder()?.resolvingSymlinksInPath()
+    }
+    #endif
+    
     static func filePathFor(downloadURL: URL) -> URL? {
         downloadLocalFolder()?.appendingPathComponent(downloadURL.lastPathComponent)
     }

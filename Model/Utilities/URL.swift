@@ -116,4 +116,43 @@ extension URL {
         components.queryItems = nil
         return components.url ?? self
     }
+    
+    #if os(macOS)
+    func volumeName() -> String? {
+        let needsScope = startAccessingSecurityScopedResource()
+        defer { if needsScope { stopAccessingSecurityScopedResource() } }
+        return try? resourceValues(forKeys: [.volumeNameKey]).volumeName
+    }
+    
+    func availableSpace() -> Int64? {
+        let needsScope = startAccessingSecurityScopedResource()
+        defer { if needsScope { stopAccessingSecurityScopedResource() } }
+        do {
+            let resourceValues = try resourceValues(forKeys: [
+                .volumeAvailableCapacityForImportantUsageKey,
+                .volumeAvailableCapacityKey
+            ])
+            if let available = resourceValues.volumeAvailableCapacityForImportantUsage, available > 0 {
+                return available
+            }
+            // Fallback when accounts for purgeable space (APFS) is not supported
+            if let available = resourceValues.volumeAvailableCapacity {
+                return Int64(available)
+            }
+            return nil
+        } catch {
+            Log.DownloadService.warning(
+                "Could not determine available disk space: \(error.localizedDescription, privacy: .public)"
+            )
+            return nil
+        }
+    }
+    
+    func bookmarkDataWithSecurityScope() -> Data? {
+        let needsScope = startAccessingSecurityScopedResource()
+        defer { if needsScope { stopAccessingSecurityScopedResource() } }
+        return try? bookmarkData(options: .withSecurityScope)
+    }
+    
+    #endif
 }

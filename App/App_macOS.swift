@@ -32,6 +32,7 @@ enum SettingsTab: Int {
     case hotspot
     case about
     case diagnostics
+    case downloads
 }
 
 @main
@@ -126,6 +127,8 @@ struct Kiwix: App {
                         .environmentObject(libraryRefreshViewModel)
                         .tag(SettingsTab.catalog.rawValue)
                 }
+                DownloadsMacOsSettings()
+                    .tag(SettingsTab.downloads.rawValue)
                 HotspotSettings()
                     .tag(SettingsTab.hotspot.rawValue)
                 About()
