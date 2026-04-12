@@ -54,6 +54,8 @@ extension Defaults.Keys {
     #if os(macOS)
     // window management:
     static let windowURLs = Key<[URL]>("windowURLs", default: [])
+    /// selected downloads directory, encoded via url.bookmarkData
+    static let downloadsMacDirectoryBookmark = Key<Data?>("downloadsMacDirectoryBookmark")
     #endif
     
     #if os(iOS)

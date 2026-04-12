@@ -322,3 +322,12 @@
 "download_service.error.client.cannotMoveFile" = "Additional description of the download alert pop up, describing the specific system error, that occured.";
 "download_service.error.client.downloadDecodingFailedMidStream" = "Additional description of the download alert pop up, describing the specific system error, that occured.";
 "download_service.error.client.downloadDecodingFailedToComplete" = "Additional description of the download alert pop up, describing the specific system error, that occured.";
+
+"download_mac_settings.tab.title" = "Settings page tab title";
+"download_mac_folder.button.change" = "Button title to change the download folder, where the ZIM files will be saved. Displayed below the currently selected folder path.";
+"download_mac_folder.button.reset" = "Button title to reset the changed download folder to the default location. Displayed below the currently selected folder path.";
+"download_mac_folder.unknown" = "A fallback title, if for some reason the currently selected path cannot be displayed.";
+"download_mac_folder.panel.message" = "File browser panel pop up title, when the user is in the process of selecting the desired folder, where the ZIM files will be saved.";
+"download_mac_folder.error.title" = "Error alert pop-up title, when the selected folder cannot be used.";
+"download_mac_folder.error.not_writable" = "Error alert pop-up message, when the selected folder is not writable by the application, therefore not suitable as a downloads folder.";
+"download_mac_folder.error.save_failed" = "Error alert pop-up message, the selected folder is not reachable by the application, therefore not suitable as a downloads folder.";

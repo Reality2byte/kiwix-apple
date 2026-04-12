@@ -241,9 +241,18 @@
 "settings.about.source.title" = "Source";
 "settings.about.button.license" = "GNU General Public License v3";
 
+"download_mac_settings.tab.title" = "Downloads";
+
+"download_mac_folder.button.change" = "Change";
+"download_mac_folder.button.reset" = "Reset to default";
+"download_mac_folder.unknown" = "Unknown";
+"download_mac_folder.panel.message" = "Select a folder for ZIM downloads";
+"download_mac_folder.error.title" = "Can't use this folder.";
+"download_mac_folder.error.not_writable" = "You don't have permission to save files here.";
+"download_mac_folder.error.save_failed" = "Couldn't set the download folder. Try again.";
+
 "bookmark.navigation.title" = "Bookmarks";
 "bookmark.overlay.empty.title" = "No bookmarks";
-
 
 "search_result.zimfile.empty.message" = "No opened ZIM file";
 "search_result.zimfile.no_result.message" = "No result";
@@ -360,7 +369,7 @@
 "download_service.error.client.serverCertificateNotYetValid" = "The certificate for this server is not yet valid.";
 "download_service.error.client.clientCertificateRejected" = "The server did not accept the certificate.";
 "download_service.error.client.clientCertificateRequired" = "The server requires a client certificate.";
-"download_service.error.client.cannotLoadFromNetwork" = "can’t load from network";
+"download_service.error.client.cannotLoadFromNetwork" = "can't load from network";
 "download_service.error.client.cannotCreateFile" = "Cannot create file";
 "download_service.error.client.cannotOpenFile" = "Cannot open file";
 "download_service.error.client.cannotCloseFile" = "Failure occurred while closing file";
