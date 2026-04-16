@@ -52,7 +52,7 @@
 "outline_button.outline.title" = "Overzicht";
 "outline_button.outline.help" = "Artikeloverzicht weergeven";
 "outline_button.outline.empty.message" = "Geen overzicht beschikbaar";
-"bookmark_button.show.help" = "Het bladwijzerblad tonen, waar het huidige artikel aan de bladwijzers kan worden toegevoegd of eruit kan worden verwijderd.";
+"bookmark_button.show.help" = "Het bladwijzerblad weergeven, waar de huidige pagina aan de bladwijzers kan worden toegevoegd of eruit kan worden verwijderd.";
 "article_shortcut.main.button.title" = "Hoofdartikel";
 "article_shortcut.main.button.help" = "Hoofdartikel weergeven";
 "article_shortcut.random.button.title.mac" = "Willekeurig artikel";
@@ -111,7 +111,7 @@
 "zim_file.list.info.text" = "Informatie";
 "zim_file.action.locate.title" = "Opzoeken";
 "zim_file.action.open_main_page.title" = "Hoofdpagina openen";
-"zim_file.action.reveal_in_finder.title" = "Tonen in Finder";
+"zim_file.action.reveal_in_finder.title" = "Weergeven in Finder";
 "zim_file.action.toggle_cellular" = "Downloaden via mobiel";
 "zim_file.action.unlink.title" = "Ontkoppelen";
 "zim_file.action.unlink.message" = "Alle in de bladwijzers opgenomen artikelen die aan dit ZIM-bestand zijn gekoppeld, worden verwijderd, maar het oorspronkelijke bestand blijft behouden.";
@@ -203,6 +203,14 @@
 "settings.about.our_website.button" = "Onze website";
 "settings.about.source.title" = "Bron";
 "settings.about.button.license" = "GNU General Public License v3";
+"download_mac_settings.tab.title" = "Downloads";
+"download_mac_folder.button.change" = "Wijzigen";
+"download_mac_folder.button.reset" = "Terug naar standaardinstellingen";
+"download_mac_folder.unknown" = "Onbekend";
+"download_mac_folder.panel.message" = "Selecteer een map voor ZIM-downloads";
+"download_mac_folder.error.title" = "Deze map kan niet gebruikt worden.";
+"download_mac_folder.error.not_writable" = "U hebt hier geen toestemming om hier bestanden op te slaan.";
+"download_mac_folder.error.save_failed" = "Het lukte niet om de downloadmap in te stellen. Probeer het opnieuw.";
 "bookmark.navigation.title" = "Bladwijzers";
 "bookmark.overlay.empty.title" = "Geen bladwijzers";
 "search_result.zimfile.empty.message" = "Geen geopend ZIM-bestand";

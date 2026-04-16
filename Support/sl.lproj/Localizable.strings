@@ -201,6 +201,14 @@
 "settings.about.our_website.button" = "Naše spletišče";
 "settings.about.source.title" = "Vir";
 "settings.about.button.license" = "Splošna javna licenca GNU v3";
+"download_mac_settings.tab.title" = "Prenosi";
+"download_mac_folder.button.change" = "Spremeni";
+"download_mac_folder.button.reset" = "Ponastavi";
+"download_mac_folder.unknown" = "Neznano";
+"download_mac_folder.panel.message" = "Izberite mapo za prenose ZIM";
+"download_mac_folder.error.title" = "Te mape ni mogoče uporabiti.";
+"download_mac_folder.error.not_writable" = "Nimate dovoljenja za shranjevanje datotek tukaj.";
+"download_mac_folder.error.save_failed" = "Mape za prenos ni bilo mogoče nastaviti. Poskusite znova.";
 "bookmark.navigation.title" = "Zaznamki";
 "bookmark.overlay.empty.title" = "Ni zaznamkov";
 "search_result.zimfile.empty.message" = "Ni odprte datoteke ZIM";

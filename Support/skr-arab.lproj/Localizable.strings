@@ -87,6 +87,9 @@
 "settings.about.appverion.title" = "ورژن";
 "settings.about.our_website.button" = "ساݙی ویب سائٹ";
 "settings.about.source.title" = "ماخذ";
+"download_mac_settings.tab.title" = "ڈاؤن لوڈ";
+"download_mac_folder.button.change" = "وٹاؤ";
+"download_mac_folder.unknown" = "نامعلوم";
 "bookmark.navigation.title" = "نشانیاں";
 "bookmark.overlay.empty.title" = "کوئی نشانیاں کائنی";
 "search_result.zimfile.no_result.message" = "کوئی نتیجہ کائنی";
