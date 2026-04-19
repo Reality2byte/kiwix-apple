@@ -133,6 +133,7 @@
 "settings.about.appverion.title" = "Versioun";
 "settings.about.our_website.button" = "Eis Websäit";
 "settings.about.source.title" = "Quell";
+"download_mac_folder.unknown" = "Onbekannt";
 "bookmark.navigation.title" = "Lieszeechen";
 "bookmark.overlay.empty.title" = "Keng Lieszeechen";
 "search_result.zimfile.no_result.message" = "Keng Resultater";
