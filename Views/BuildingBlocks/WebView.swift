@@ -120,12 +120,9 @@ struct WebView: UIViewControllerRepresentable {
 final class WebViewController: UIViewController {
     private let webView: WKWebView
     private let pageZoomObserver: Defaults.Observation
-    private var webViewURLObserver: NSKeyValueObservation?
     private var topSafeAreaConstraint: NSLayoutConstraint?
     private var layoutSubject = PassthroughSubject<Void, Never>()
     private var layoutCancellable: AnyCancellable?
-    private var currentScrollViewOffset: CGFloat = 0.0
-    private var compactViewNavigationController: UINavigationController?
     
     init(webView: WKWebView) {
         self.webView = webView
@@ -175,7 +172,7 @@ final class WebViewController: UIViewController {
                 self?.view.topAnchor.constraint(equalTo: webView.topAnchor).isActive = true
             }
         if !Brand.disableImmersiveReading {
-            configureImmersiveReading()
+            parent?.navigationController?.hidesBarsOnSwipe = true
         }
     }
 
@@ -185,86 +182,6 @@ final class WebViewController: UIViewController {
             webView.setValue(view.safeAreaInsets, forKey: "_obscuredInsets")
         }
         layoutSubject.send()
-    }
-}
-
-// MARK: - UIScrollViewDelegate
-extension WebViewController: UIScrollViewDelegate {
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        configureBars(on: scrollView)
-    }
-    
-    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-        currentScrollViewOffset = scrollView.contentOffset.y
-    }
-    
-    private func configureBars(on scrollView: UIScrollView) {
-        guard let navigationController = compactViewNavigationController else {
-            return
-        }
-        
-        var isScrollingDown: Bool {
-            scrollView.contentOffset.y > currentScrollViewOffset
-        }
-        
-        if scrollView.isDragging {
-            if isScrollingDown {
-                hideBars(on: navigationController)
-            } else {
-                showBars(on: navigationController)
-            }
-        }
-    }
-    
-    func hideBars(on navigationController: UINavigationController) {
-        navigationController.setNavigationBarHidden(true, animated: true)
-        navigationController.setToolbarHidden(true, animated: true)
-    }
-    
-    func showBars(on navigationController: UINavigationController) {
-        navigationController.setNavigationBarHidden(false, animated: true)
-        if traitCollection.horizontalSizeClass == .compact {
-            navigationController.setToolbarHidden(false, animated: true)
-        }
-    }
-}
-
-// MARK: - Screen orientation change
-
-extension WebViewController {
-    @objc func onOrientationChange() {
-        guard let navigationController = compactViewNavigationController else {
-            return
-        }
-        
-        switch UIDevice.current.orientation {
-        case .landscapeLeft:
-            showBars(on: navigationController)
-        case .landscapeRight:
-            showBars(on: navigationController)
-        default:
-            showBars(on: navigationController)
-        }
-    }
-    
-    private func configureImmersiveReading() {
-        configureDeviceOrientationNotifications()
-        configureNavigationController()
-
-        func configureDeviceOrientationNotifications() {
-            UIDevice.current.beginGeneratingDeviceOrientationNotifications()
-            NotificationCenter.default.addObserver(self,
-                                                   selector: #selector(self.onOrientationChange),
-                                                   name: UIDevice.orientationDidChangeNotification,
-                                                   object: nil)
-        }
-        
-        func configureNavigationController() {
-            webView.scrollView.delegate = self
-            if parent?.navigationController != nil {
-                compactViewNavigationController = parent?.navigationController
-            }
-        }
     }
 }
 
