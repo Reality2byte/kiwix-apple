@@ -2,6 +2,7 @@
 // Exported from translatewiki.net
 // Author: Pyscowicz
 // Author: Samoasambia
+// Author: Wikipeedikko
 
 "download_service.complete.title" = "Lataus valmis";
 "download_service.complete.description" = "%@ on ladattu onnistuneesti.";
@@ -100,6 +101,11 @@
 "settings.about.build.title" = "Koontiversio";
 "settings.about.our_website.button" = "Verkkosivustomme";
 "settings.about.source.title" = "Lähdekoodi";
+"download_mac_settings.tab.title" = "Lataukset";
+"download_mac_folder.button.change" = "Vaihda";
+"download_mac_folder.button.reset" = "Palauta oletusarvoihin";
+"download_mac_folder.unknown" = "Tuntematon";
+"download_mac_folder.error.title" = "Tätä kansiota ei voi käyttää.";
 "bookmark.navigation.title" = "Kirjanmerkit";
 "bookmark.overlay.empty.title" = "Ei kirjanmerkkejä";
 "search_result.zimfile.no_result.message" = "Ei tuloksia";

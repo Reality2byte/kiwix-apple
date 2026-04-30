@@ -76,6 +76,7 @@
 "download_task_cell.status.downloading" = "Laddar ned...";
 "download_task_cell.status.paused" = "Pausad";
 "download_task_cell.status.paused.device_offline" = "Pauserad (enhet är offline)";
+"download_task_cell.status.paused.waiting_for_wifi" = "Pausad (inväntar WiFi)";
 "download_again.question.title" = "Du har redan den här filen.";
 "download_again.question.description_part_1" = "Det ser ut som att %@ redan laddats ned.";
 "download_again.question.description_part_2" = "Vill du fortfarande ladda ned \"%@\"? Din befintliga fil kommer inte att raderas.";
@@ -206,6 +207,14 @@
 "settings.about.our_website.button" = "Vår webbplats";
 "settings.about.source.title" = "Källa";
 "settings.about.button.license" = "GNU General Public License v3";
+"download_mac_settings.tab.title" = "Nedladdningar";
+"download_mac_folder.button.change" = "Ändra";
+"download_mac_folder.button.reset" = "Återställ till standard";
+"download_mac_folder.unknown" = "Okänd";
+"download_mac_folder.panel.message" = "Ange en mapp för ZIM-nedladdningar";
+"download_mac_folder.error.title" = "Kan inte använda den här mappen.";
+"download_mac_folder.error.not_writable" = "Du har inte tillstånd att spara filer här.";
+"download_mac_folder.error.save_failed" = "Kunde inte ange nedladdningsmapp. Försök igen.";
 "bookmark.navigation.title" = "Bokmärken";
 "bookmark.overlay.empty.title" = "Inga bokmärken";
 "search_result.zimfile.empty.message" = "Ingen öppnad ZIM-fil";

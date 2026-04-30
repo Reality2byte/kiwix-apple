@@ -3,6 +3,7 @@
 // Author: Adriendelucca
 // Author: Bananax47
 // Author: Benoit74
+// Author: Chpol
 // Author: Codeurluce
 // Author: Crochet.david
 // Author: Derugon
@@ -87,6 +88,7 @@
 "download_task_cell.status.downloading" = "Téléchargement...";
 "download_task_cell.status.paused" = "Pause";
 "download_task_cell.status.paused.device_offline" = "En pause (appareil hors ligne)";
+"download_task_cell.status.paused.waiting_for_wifi" = "En pause (en attente de connexion Wi-Fi)";
 "download_again.question.title" = "Vous avez déjà ce fichier.";
 "download_again.question.description_part_1" = "Il semble que %@ a déjà été téléchargé.";
 "download_again.question.description_part_2" = "Vous voulez toujours télécharger \"%@\" ? Votre fichier existant ne sera pas supprimé.";
@@ -217,6 +219,14 @@
 "settings.about.our_website.button" = "Notre site web";
 "settings.about.source.title" = "Source";
 "settings.about.button.license" = "Licence publique générale GNU v3";
+"download_mac_settings.tab.title" = "Téléchargements";
+"download_mac_folder.button.change" = "Modifier";
+"download_mac_folder.button.reset" = "Revenir aux paramètres par défaut";
+"download_mac_folder.unknown" = "Non disponible";
+"download_mac_folder.panel.message" = "Sélectionnez un dossier pour les téléchargements ZIM";
+"download_mac_folder.error.title" = "Ce dossier n'est pas utilisable.";
+"download_mac_folder.error.not_writable" = "Vous n'avez pas les autorisations pour enregistrer des fichiers ici.";
+"download_mac_folder.error.save_failed" = "Impossible de définir le dossier de téléchargement. Veuillez réessayer.";
 "bookmark.navigation.title" = "Signets";
 "bookmark.overlay.empty.title" = "Aucun signet";
 "search_result.zimfile.empty.message" = "Aucun fichier ZIM ouvert";
