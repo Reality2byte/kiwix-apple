@@ -101,6 +101,7 @@ import CoreKiwix
 #endif
     let webView: WKWebView
     let tabID: NSManagedObjectID
+    private var geolocationService: GeolocationService?
     private var isLoadingObserver: NSKeyValueObservation?
     private var canGoBackObserver: NSKeyValueObservation?
     private var canGoForwardObserver: NSKeyValueObservation?
@@ -132,6 +133,8 @@ import CoreKiwix
         webView.configuration.defaultWebpagePreferences.preferredContentMode = .mobile // for font adjustment to work
         webView.configuration.userContentController.removeScriptMessageHandler(forName: "headings")
         webView.configuration.userContentController.add(self, name: "headings")
+        webView.configuration.userContentController.removeScriptMessageHandler(forName: "geolocation")
+        webView.configuration.userContentController.add(self, name: "geolocation")
         webView.navigationDelegate = self
         webView.uiDelegate = self
 
@@ -187,8 +190,10 @@ import CoreKiwix
         canGoForwardObserver?.invalidate()
         titleURLObserver?.cancel()
         isLoadingObserver?.invalidate()
+        geolocationService?.stopAll()
         let contentController = webView.configuration.userContentController
         contentController.removeScriptMessageHandler(forName: "headings")
+        contentController.removeScriptMessageHandler(forName: "geolocation")
         contentController.removeAllUserScripts()
         webView.navigationDelegate = nil
         webView.uiDelegate = nil
@@ -501,6 +506,11 @@ import CoreKiwix
         decisionHandler(.allow)
     }
 
+    func webView(_ webView: WKWebView, didCommit _: WKNavigation!) {
+        // The previous document's geolocation callbacks are gone
+        geolocationService?.stopAll()
+    }
+
     @MainActor
     func webView(_ webView: WKWebView, didFinish _: WKNavigation!) {
         webView.evaluateJavaScript("expandAllDetailTags(); getOutlineItems();")
@@ -548,6 +558,42 @@ import CoreKiwix
         if message.name == "headings", let headings = message.body as? [[String: String]] {
             self.generateOutlineList(headings: headings)
             self.generateOutlineTree(headings: headings)
+        } else if message.name == "geolocation", let body = message.body as? [String: Any] {
+            guard let request = GeolocationRequest(jsRequest: body) else { return }
+            ensureGeolocationService().handle(request: request)
+        }
+    }
+    
+    // MARK: - Geolocation
+    
+    private func ensureGeolocationService() -> GeolocationService {
+        if let service = geolocationService { return service }
+        let service = GeolocationService { [weak self] jsResponse in
+            Task {
+                await self?.respondToJSWithGeolocation(response: jsResponse)
+            }
+        }
+        geolocationService = service
+        return service
+    }
+
+    private func respondToJSWithGeolocation(response: JSRespondable) async {
+        do {
+            _ = try await webView.callAsyncJavaScript(
+                "window.__kiwixGeolocationResolve(payload);",
+                arguments: ["payload": response.jsResponse],
+                in: nil,
+                contentWorld: .page
+            )
+        } catch let error as NSError where error.domain == WKError.errorDomain
+            && (error.code == WKError.webContentProcessTerminated.rawValue
+                || error.code == WKError.webViewInvalidated.rawValue) {
+            // Page is gone — expected during teardown, no signal worth keeping.
+        } catch {
+            let message = error.localizedDescription
+            Log.Geolocation.error(
+                "respondToJSWithGeolocation failed: \(message, privacy: .public)"
+            )
         }
     }
 
