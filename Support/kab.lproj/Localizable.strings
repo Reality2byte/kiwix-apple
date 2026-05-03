@@ -16,6 +16,7 @@
 "common.button.share" = "Bḍu";
 "common.button.share_as_pdf" = "Bḍu-t am uPDF";
 "common.search" = "Nadi";
+"common.search.inpage" = "Nadi deg usebter";
 "common.tab.menu.new_tab" = "Iccer amaynut";
 "common.tab.menu.close_this" = "Mdel iccer-a";
 "common.tab.menu.close_all" = "Mdel akk iccaren";
@@ -41,6 +42,8 @@
 "zim_file.action.download.title" = "Zdem";
 "zim_file.base_info.attribute.language" = "Tutlayt";
 "zim_file.base_info.attribute.category" = "Taggayt";
+"zim_file.base_info.attribute.size" = "Tiddi";
+"zim_file.bool_info.videos" = "Tividyutin";
 "zim_file.download_task.action.title.cancel" = "Semmet";
 "theme_settings.title" = "Asentel";
 "theme_settings.option.dark" = "Ubrik";
@@ -62,6 +65,7 @@
 "settings.about.our_website.button" = "Asmel Web nneɣ";
 "settings.about.source.title" = "Aɣbalu";
 "settings.about.button.license" = "Turagt Tazayazt Tamatut GNU v3";
+"download_mac_folder.unknown" = "Arussin";
 "search_result.sidebar.button.remove" = "Kkes";
 "search_result.button.clear" = "Sfeḍ";
 "search_result.filter_hearder.button.all" = "Akk";
