@@ -37,6 +37,7 @@ struct SplitViewForiPad: View { // swiftlint:disable:this type_body_length
     private let selectFileById = NotificationCenter.default.publisher(for: .selectFile)
     @State private var hasZimFiles: Bool?
     @State private var navigateToHotspotSettingsTask: Task<Void, Never>?
+    @Environment(\.scenePhase) private var scenePhase
 
     var body: some View {
         NavigationSplitView(columnVisibility: $columnVisibility) {
@@ -125,8 +126,15 @@ struct SplitViewForiPad: View { // swiftlint:disable:this type_body_length
             }
             navPath.append(fileId)
         })
-        .onDisappear {
-            Defaults[.ipadSplitViewVisibility] = columnVisibility
+        .onChange(of: scenePhase) { old, new in
+            switch (old, new) {
+            case (.active, .inactive):
+                Defaults[.ipadSplitViewVisibility] = columnVisibility
+            case (_, .inactive):
+                columnVisibility = Defaults[.ipadSplitViewVisibility]
+            default:
+                break
+            }
         }
     }
     
