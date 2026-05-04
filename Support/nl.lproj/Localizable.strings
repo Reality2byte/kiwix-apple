@@ -328,3 +328,6 @@
 "download_service.error.client.cannotMoveFile" = "Kan bestand niet verplaatsen";
 "download_service.error.client.downloadDecodingFailedMidStream" = "Decoderen van download mislukt";
 "download_service.error.client.downloadDecodingFailedToComplete" = "Decoderen gedownload bestand mislukt";
+"geolocation_error.permission_denied" = "Gebruiker heeft geen toestemming gegeven voor geolocatie.";
+"geolocation_error.position_unavailable" = "Locatie niet beschikbaar.";
+"geolocation_error.timeout" = "De locatieaanvraag is verlopen.";
