@@ -37,6 +37,7 @@ struct SplitViewForiPad: View { // swiftlint:disable:this type_body_length
     private let selectFileById = NotificationCenter.default.publisher(for: .selectFile)
     @State private var hasZimFiles: Bool?
     @State private var navigateToHotspotSettingsTask: Task<Void, Never>?
+    @Environment(\.scenePhase) private var scenePhase
 
     var body: some View {
         NavigationSplitView(columnVisibility: $columnVisibility) {
@@ -110,15 +111,11 @@ struct SplitViewForiPad: View { // swiftlint:disable:this type_body_length
             if let currentItem = navigation.currentItem {
                 selection = MenuItem(from: currentItem)
             }
+            updateColumnVisibility()
         }
         .onChange(of: navigation.currentItem) { oldValue, newValue in
             if newValue != oldValue {
-                if hasZimFiles == true, newValue != .loading {
-                    // allow the side menu to be displayed
-                    columnVisibility = Defaults[.ipadSplitViewVisibility]
-                } else if hasZimFiles == false {
-                    columnVisibility = .detailOnly
-                }
+                updateColumnVisibility()
             }
             updateSelection(newValue)
         }
@@ -129,8 +126,24 @@ struct SplitViewForiPad: View { // swiftlint:disable:this type_body_length
             }
             navPath.append(fileId)
         })
-        .onDisappear {
-            Defaults[.ipadSplitViewVisibility] = columnVisibility
+        .onChange(of: scenePhase) { old, new in
+            switch (old, new) {
+            case (.active, .inactive):
+                Defaults[.ipadSplitViewVisibility] = columnVisibility
+            case (_, .inactive):
+                columnVisibility = Defaults[.ipadSplitViewVisibility]
+            default:
+                break
+            }
+        }
+    }
+    
+    private func updateColumnVisibility() {
+        if hasZimFiles == true, navigation.currentItem != .loading {
+            // allow the side menu to be displayed
+            columnVisibility = Defaults[.ipadSplitViewVisibility]
+        } else if hasZimFiles == false {
+            columnVisibility = .detailOnly
         }
     }
     
