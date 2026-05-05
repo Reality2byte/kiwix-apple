@@ -1,4 +1,15 @@
+# 3.16.0
+
 # 3.15.0
+- NEW:
+    - Add geolocation api (@BPerlakiH, @jasontitus #1562)
+- UPDATED:
+    - Do not display missing ZIM files in search options (@BPerlakiH #1559)
+    - Use native immersive experience (@BPerlakiH #1555)
+    - Localisation updates from https://translatewiki.net (@translatewiki #1551, #1553, #1564)
+- FIX:
+    - Remember side bar state on iPad (@BPerlakiH #1563)
+    - Add macOS Downloads settings (@BPerlakiH #1546)
 
 # 3.14.0
 
